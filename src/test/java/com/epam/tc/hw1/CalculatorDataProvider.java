@@ -5,8 +5,8 @@ import org.testng.annotations.DataProvider;
 public class CalculatorDataProvider {
 
     @DataProvider(name = "dataCanBeConvertedToLongDatatype")
-    public Object[][] getDataForDivideTest_ForLongDatatype() {
-        Object[][] dataForDivideTest = {
+    public static Object[][] getDataForDivideTest_ForLongDatatype() {
+        return new Object[][] {
             {"8", "4"},
             {"6", "1"},
             {"-8", "-4"},
@@ -14,12 +14,11 @@ public class CalculatorDataProvider {
             {"8", "-4"},
             {"0", "4000"},
         };
-        return dataForDivideTest;
     }
 
     @DataProvider(name = "dataCanBeConvertedToDoubleDatatype")
-    public Object[][] getDataForDivideTest_ForDoubleDatatype() {
-        Object[][] dataForDivideTest = {
+    public static Object[][] getDataForDivideTest_ForDoubleDatatype() {
+        return new Object[][] {
             {"8.34", "4.2"},
             {"6.0", "1.34"},
             {"-8.11", "-4.23"},
@@ -27,7 +26,6 @@ public class CalculatorDataProvider {
             {"8.1223423", "-4.00001"},
             {"0.000", "4.1424234"},
         };
-        return dataForDivideTest;
     }
 
 }
