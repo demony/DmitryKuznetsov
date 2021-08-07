@@ -9,7 +9,7 @@ public class CalculatorSumTests {
 
     @Test
     public void sumTest() {
-        long expected = 11;
+        long expected = 10;
         Calculator calculator = new Calculator();
         long actual = calculator.sum(8, 2);
         assertThat(actual)

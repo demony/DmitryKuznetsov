@@ -61,13 +61,13 @@
         <profile>
             <id>profile-all-test</id>
             <properties>
-                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/all-tests.xml</maven-surefire-plugin.suiteXmlFile>
+                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw1-all-tests.xml</maven-surefire-plugin.suiteXmlFile>
             </properties>
         </profile>
         <profile>
             <id>profile-sum-and-subtract-test</id>
             <properties>
-                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/sum-and-subtract.xml</maven-surefire-plugin.suiteXmlFile>
+                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw1-sum-and-subtract.xml</maven-surefire-plugin.suiteXmlFile>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -76,7 +76,7 @@
         <profile>
             <id>profile-multiply-and-divide-test</id>
             <properties>
-                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/multiply-and-divide.xml</maven-surefire-plugin.suiteXmlFile>
+                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw1-multiply-and-divide.xml</maven-surefire-plugin.suiteXmlFile>
             </properties>
         </profile>
     </profiles>
