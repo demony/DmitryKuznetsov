@@ -14,6 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <testng.version>7.4.0</testng.version>
         <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+        <calculator.version>1.0</calculator.version>
+        <assertj-core.version>3.20.0</assertj-core.version>
     </properties>
 
     <repositories>
@@ -27,7 +29,7 @@
         <dependency>
             <groupId>com.epam.tat.module4</groupId>
             <artifactId>calculator</artifactId>
-            <version>1.0</version>
+            <version>${calculator.version}</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -38,7 +40,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.20.0</version>
+            <version>${assertj-core.version}</version>
         </dependency>
     </dependencies>
 
