@@ -1,10 +1,13 @@
 package com.epam.tc.hw2.exercise1;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -231,6 +234,8 @@ public class SiteStructureTests {
 
         // 12. Close Browser
         webDriver.close();
+        assertThatThrownBy(() -> webDriver.getTitle()).as("Browser is closed")
+                                                      .isInstanceOf(NoSuchSessionException.class);
 
         softAssertions.assertAll();
     }
