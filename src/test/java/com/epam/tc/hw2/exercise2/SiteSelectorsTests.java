@@ -35,7 +35,6 @@ public class SiteSelectorsTests {
         }
     }
 
-    @SuppressWarnings("checkstyle:VariableDeclarationUsageDistance")
     @Test
     public void siteSelectors_workCorrectly() {
 

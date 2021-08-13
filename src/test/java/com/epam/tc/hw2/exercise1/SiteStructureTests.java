@@ -181,6 +181,10 @@ public class SiteStructureTests {
 
         // 10. Switch to original window back
         webDriver.switchTo().defaultContent();
+        actualURL = webDriver.getCurrentUrl();
+        softAssertions.assertThat(actualURL)
+                      .as("Driver has focus on the original window")
+                      .isEqualTo(siteURL);
 
         // 11. Assert that there are 5 items in the Left Section are displayed, and they have proper text
         List<WebElement> leftMenuElements = webDriver.findElements(
