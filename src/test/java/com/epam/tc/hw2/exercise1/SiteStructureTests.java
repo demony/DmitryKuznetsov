@@ -3,8 +3,13 @@ package com.epam.tc.hw2.exercise1;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchSessionException;
@@ -81,106 +86,74 @@ public class SiteStructureTests {
                       .isEqualTo("ROMAN IOVLEV");
 
         // 5. Assert that there are 4 items on the header section are displayed, and they have proper texts
-        List<WebElement> menuElements = webDriver.findElements(
-            By.xpath("//header//ul[@class='uui-navigation nav navbar-nav m-l8']/li"));
+        List<String> menuElementsExpected = Arrays.asList("HOME", "CONTACT FORM", "SERVICE", "METALS & COLORS");
+
+        List<WebElement> menuElements = webDriver.findElements(By.cssSelector("ul.m-l8 > li > a"));
         softAssertions.assertThat(menuElements.size())
                       .as("The menu in header section should have 4 top elements")
-                      .isEqualTo(4);
+                      .isEqualTo(menuElementsExpected.size());
 
-        WebElement menuHome = webDriver.findElement(By.xpath("//header/.//a[contains(text(), 'Home')]"));
-        softAssertions.assertThat(menuHome.getText())
-                      .as("The menu element 'home' is displayed as 'HOME'")
-                      .isEqualTo("HOME");
-        softAssertions.assertThat(menuHome.isDisplayed())
-                      .as("The menu element 'HOME' should be visible").isTrue();
 
-        WebElement menuContactForm = webDriver.findElement(By.xpath("//header/.//a[contains(text(), 'Contact form')]"));
-        softAssertions.assertThat(menuContactForm.getText())
-                      .as("The menu element 'Contact form' is displayed as 'CONTACT FORM'")
-                      .isEqualTo("CONTACT FORM");
-        softAssertions.assertThat(menuContactForm.isDisplayed())
-                      .as("The menu element 'CONTACT FORM' should be visible").isTrue();
+        List<String> menuElementsActual = menuElements.stream().map(WebElement::getText).collect(Collectors.toList());
+        softAssertions.assertThat(menuElementsActual)
+                      .as("Menu elements should have proper text")
+                      .isEqualTo(menuElementsExpected);
 
-        WebElement menuService = webDriver
-            .findElement(By.xpath("//header/.//a[@class='dropdown-toggle' and  @data-toggle='dropdown']"));
-        softAssertions.assertThat(menuService.getText())
-                      .as("The menu element 'Service' is displayed as 'SERVICE'")
-                      .isEqualTo("SERVICE");
-        softAssertions.assertThat(menuService.isDisplayed())
-                      .as("The menu element 'SERVICE' should be visible").isTrue();
-
-        WebElement menuMetalsAndColors = webDriver
-            .findElement(By.xpath("//header/.//a[contains(text(), 'Metals & Colors')]"));
-        softAssertions.assertThat(menuMetalsAndColors.getText())
-                      .as("The menu element 'Metals & Colors' is displayed as 'METALS & COLORS'")
-                      .isEqualTo("METALS & COLORS");
-        softAssertions.assertThat(menuMetalsAndColors.isDisplayed())
-                      .as("The menu element 'METALS & COLORS' should be visible").isTrue();
+        List<String> menuElementsVisibleActual = menuElements
+            .stream().filter(WebElement::isEnabled).map(WebElement::getText).collect(Collectors.toList());
+        softAssertions.assertThat(menuElementsVisibleActual)
+                      .as("Menu elements should be visible")
+                      .isEqualTo(menuElementsExpected);
 
         // 6. Assert that there are 4 images on the Index Page, and they are displayed
         List<WebElement> imagesOnIndexPage =
             webDriver.findElements(By.xpath("//span[contains(@class,'icons-benefit')]"));
-        softAssertions.assertThat(imagesOnIndexPage.size())
-                      .as(" There are should be 4 images on the Index Page")
-                      .isEqualTo(4);
+        softAssertions. assertThat(imagesOnIndexPage)
+                      .as(" There are should be 4 images on the Index Page").hasSize(4);
 
-        for (WebElement imageElement : imagesOnIndexPage) {
-            softAssertions.assertThat(imageElement.isDisplayed())
-                          .as("The image element with class = '"
-                              + imageElement.getAttribute("class")
-                              + "' should be visible").isTrue();
-        }
+        softAssertions.assertThat(imagesOnIndexPage)
+                      .as("All images on index page should be visible")
+                      .allMatch(WebElement::isDisplayed);
 
         // 7. Assert that there are 4 texts on the Index Page under icons, and they have proper text
-        List<WebElement> benefitsTxt = webDriver.findElements(By.xpath("//span[contains(@class,'benefit-txt')]"));
-        softAssertions.assertThat(benefitsTxt.size())
-                      .as(" There are should be 4 texts on the Index Page under icons")
-                      .isEqualTo(4);
+        List<WebElement> benefitsTxt = webDriver.findElements(By.cssSelector("span.benefit-txt"));
+        softAssertions.assertThat(benefitsTxt)
+                      .as("There are should be 4 texts on the Index Page under icons and visible")
+                      .hasSize(4).allMatch(WebElement::isDisplayed);
 
-        WebElement textUnderPractice = webDriver
-            .findElement(By.xpath(
-                "//span[@class ='icons-benefit icon-practise']//../..//preceding-sibling::span[@class='benefit-txt']"));
+        Map<String, String> mapImagesClassesToTextExpected = new HashMap<>();
+        mapImagesClassesToTextExpected.put("icons-benefit icon-practise",
+            "To include good practices\nand ideas from successful\nEPAM project");
+        mapImagesClassesToTextExpected.put("icons-benefit icon-custom",
+            "To be flexible and\ncustomizable");
+        mapImagesClassesToTextExpected.put("icons-benefit icon-multi",
+            "To be multiplatform");
+        mapImagesClassesToTextExpected.put("icons-benefit icon-base",
+            "Already have good base\n(about 20 internal and\nsome external projects),\nwish to get more…");
 
-        softAssertions.assertThat(textUnderPractice.getText())
-                      .as("The text under element should have proper value:")
-                      .isEqualTo("To include good practices\nand ideas from successful\nEPAM project");
-
-        WebElement textUnderCustom = webDriver
-            .findElement(By.xpath(
-                "//span[@class ='icons-benefit icon-custom']//../..//preceding-sibling::span[@class='benefit-txt']"));
-
-        softAssertions.assertThat(textUnderCustom.getText())
-                      .as("The text under element should have proper value:")
-                      .isEqualTo("To be flexible and\ncustomizable");
-
-        WebElement textUnderMulti = webDriver
-            .findElement(By.xpath(
-                "//span[@class ='icons-benefit icon-multi']//../..//preceding-sibling::span[@class='benefit-txt']"));
-
-        softAssertions.assertThat(textUnderMulti.getText())
-                      .as("The text under element should have proper value:").isEqualTo("To be multiplatform");
-
-        WebElement textUnderBase = webDriver
-            .findElement(By.xpath(
-                "//span[@class ='icons-benefit icon-base']//../..//preceding-sibling::span[@class='benefit-txt']"));
-
-        softAssertions.assertThat(textUnderBase.getText())
-                      .as("The text under element should have proper value:")
-                      .isEqualTo("Already have good base\n(about 20 internal and"
-                          + "\nsome external projects),\nwish to get more…");
+        List<WebElement> benefits = webDriver.findElements(By.cssSelector("div.benefit"));
+        Map<String, String> mapImagesClassesToText = new HashMap<>();
+        for (WebElement benefit : benefits) {
+            String iconClassName = benefit.findElement(By.cssSelector("span.icons-benefit")).getAttribute("class");
+            String iconText = benefit.findElement(By.cssSelector("span.benefit-txt")).getText();
+            mapImagesClassesToText.put(iconClassName, iconText);
+        }
+        softAssertions.assertThat(mapImagesClassesToText)
+                      .as("Texts under icons equal to expected")
+                      .isEqualTo(mapImagesClassesToTextExpected);
 
         // 8. Assert that there is the iframe with “Frame Button” exist
-        boolean iframeFrameExists = webDriver.findElements(By.id("frame")).size() != 0;
-        softAssertions.assertThat(iframeFrameExists)
-                      .as("The frame with 'Frame Button' should exists").isTrue();
+        List<WebElement> iframes = webDriver.findElements(By.id("frame"));
+        softAssertions.assertThat(iframes)
+                      .as("The frame with 'Frame Button' should exists").isNotEmpty();
 
         // 9. Switch to the iframe and check that there is “Frame Button” in the iframe
         WebElement iframe = webDriver.findElement(By.id("frame"));
         webDriver.switchTo().frame(iframe);
-        boolean frameButtonExists = webDriver.findElements(By.xpath(
-            "//input[@id='frame-button' and @type='button' and @value='Frame Button']")).size() != 0;
-        softAssertions.assertThat(frameButtonExists)
-                      .as("The 'Frame Button' should exists").isTrue();
+        List<WebElement> frameButtons = webDriver.findElements(By.xpath(
+            "//input[@id='frame-button' and @type='button' and @value='Frame Button']"));
+        softAssertions.assertThat(frameButtons)
+                      .as("The 'Frame Button' should exists").isNotEmpty();
 
         // 10. Switch to original window back
         webDriver.switchTo().defaultContent();
@@ -192,45 +165,30 @@ public class SiteStructureTests {
         // 11. Assert that there are 5 items in the Left Section are displayed, and they have proper text
         List<WebElement> leftMenuElements = webDriver.findElements(
             By.xpath("//ul[@class='sidebar-menu left']/li/a/span"));
-        softAssertions.assertThat(leftMenuElements.size())
-                      .as("The left menu should contain 5 elements").isEqualTo(5);
 
-        for (WebElement menuItem : leftMenuElements) {
-            softAssertions.assertThat(menuItem.isDisplayed())
-                          .as("The menu element with  = '"
-                              + menuItem.getText()
-                              + "' should be visible").isTrue();
-        }
+        softAssertions.assertThat(leftMenuElements)
+                      .as("The left menu should contain 5 elements and they are visible")
+                      .hasSize(5)
+                      .allMatch(WebElement::isDisplayed);
 
-        WebElement leftMenuHome = webDriver.findElement(
-            By.xpath("//ul[@class='sidebar-menu left']//a/span[contains(text(), 'Home')]"));
-        softAssertions.assertThat(leftMenuHome.getText())
-                      .as("The menu element 'Home' is displayed as 'Home'")
-                      .isEqualTo("Home");
+        List<String> menuElementsLeftSideBarExpected = new ArrayList<>();
+        menuElementsLeftSideBarExpected.add("Home");
+        menuElementsLeftSideBarExpected.add("Contact form");
+        menuElementsLeftSideBarExpected.add("Service");
+        menuElementsLeftSideBarExpected.add("Metals & Colors");
+        menuElementsLeftSideBarExpected.add("Elements packs");
 
-        WebElement leftMContactForm = webDriver.findElement(
-            By.xpath("//ul[@class='sidebar-menu left']//a/span[contains(text(), 'Contact form')]"));
-        softAssertions.assertThat(leftMContactForm.getText())
-                      .as("The menu element 'Contact form' is displayed as 'Contact form'")
-                      .isEqualTo("Contact form");
+        List<String> leftMenuSideBarElements = leftMenuElements
+            .stream().map(WebElement::getText).collect(Collectors.toList());
 
-        WebElement leftMenuService = webDriver.findElement(
-            By.xpath("//ul[@class='sidebar-menu left']//a/span[contains(text(), 'Service')]"));
-        softAssertions.assertThat(leftMenuService.getText())
-                      .as("The menu element 'Service' is displayed as 'Service'")
-                      .isEqualTo("Service");
+        softAssertions.assertThat(leftMenuSideBarElements)
+                      .as("The left menu should contain "
+                          + menuElementsLeftSideBarExpected.size() + " elements")
+                      .hasSize(menuElementsLeftSideBarExpected.size());
 
-        WebElement leftMenuElementPacks = webDriver.findElement(
-            By.xpath("//ul[@class='sidebar-menu left']//a/span[contains(text(), 'Elements packs')]"));
-        softAssertions.assertThat(leftMenuElementPacks.getText())
-                      .as("The menu element 'Elements packs' is displayed as 'Elements packs'")
-                      .isEqualTo("Elements packs");
-
-        WebElement leftMenuMetalsAndColors = webDriver.findElement(
-            By.xpath("//ul[@class='sidebar-menu left']//a/span[contains(text(), 'Metals & Colors')]"));
-        softAssertions.assertThat(leftMenuMetalsAndColors.getText())
-                      .as("The menu element 'Metals & Colors' is displayed as 'Metals & Colors'")
-                      .isEqualTo("Metals & Colors");
+        softAssertions.assertThat(leftMenuSideBarElements)
+                      .as("Left menu should contain correct item names")
+                      .hasSameElementsAs(menuElementsLeftSideBarExpected);
 
         // 12. Close Browser
         webDriver.close();
