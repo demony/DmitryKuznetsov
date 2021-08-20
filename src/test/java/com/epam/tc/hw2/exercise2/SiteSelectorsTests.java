@@ -199,7 +199,7 @@ public class SiteSelectorsTests {
         softAssertions.assertThat(
                           webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
                       .as("Correct log message for unchecked Fire checkbox")
-                      .contains("Fire: condition changed to false");
+                      .contains("Fire: condition chnged to false");
 
         // test selector
         WebElement radioBtnGold = webDriver.findElement(
