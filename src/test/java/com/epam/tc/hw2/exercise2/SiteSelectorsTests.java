@@ -1,20 +1,15 @@
 package com.epam.tc.hw2.exercise2;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-
 import com.epam.tc.hw2.BaseTest;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import java.util.concurrent.TimeUnit;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class SiteSelectorsTests extends BaseTest {
@@ -110,153 +105,22 @@ public class SiteSelectorsTests extends BaseTest {
         //    • for radio button there is a log row and value is corresponded to the status of radio button
         //    • for dropdown there is a log row and value is corresponded to the selected value.
 
-        final String xpathFirstLogElement = "//ul[@class='panel-body-list logs']/li[1]";
-        // test checkboxes
+        List<WebElement> logWebElements = webDriver.findElements(By.xpath("//ul[@class='panel-body-list logs']/li"));
+        List<String> logElementsAsList = logWebElements
+            .stream()
+            .filter(WebElement::isEnabled)
+            .map(el -> el.getText().substring(9))
+            .collect(Collectors.toList());
 
-        // water checkbox
-        if (checkboxWater.isSelected()) {
-            checkboxWater.click();
-        }
-        checkboxWater.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for checked Water checkbox")
-                      .contains("Water: condition changed to true");
-        checkboxWater.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for unchecked Water checkbox")
-                      .contains("Water: condition changed to false");
+        List<String> logElementsExpected = Arrays.asList(
+            "Colors: value changed to Yellow",
+            "metal: value changed to Selen",
+            "Wind: condition changed to true",
+            "Water: condition changed to true");
 
-        // Earth checkbox
-        WebElement checkboxEarth = webDriver.findElement(
-            By.xpath("//label[@class='label-checkbox' and contains(., 'Earth')]/child::input[@type='checkbox']"));
-        checkboxWind.click();
-
-        if (checkboxEarth.isSelected()) {
-            checkboxEarth.click();
-        }
-        checkboxEarth.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for checked Earth checkbox")
-                      .contains("Earth: condition changed to true");
-        checkboxEarth.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for unchecked Earth checkbox")
-                      .contains("Earth: condition changed to false");
-
-        // wind checkbox
-        if (checkboxWind.isSelected()) {
-            checkboxWind.click();
-        }
-        checkboxWind.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for checked Wind checkbox")
-                      .contains("Wind: condition changed to true");
-        checkboxWind.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for unchecked Wind checkbox")
-                      .contains("Wind: condition changed to false");
-
-
-        // fire checkbox
-        WebElement checkboxFire = webDriver.findElement(
-            By.xpath("//label[@class='label-checkbox' and contains(., 'Fire')]/child::input[@type='checkbox']"));
-        checkboxFire.click();
-
-        if (checkboxFire.isSelected()) {
-            checkboxFire.click();
-        }
-        checkboxFire.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for checked Fire checkbox")
-                      .contains("Fire: condition changed to true");
-        checkboxFire.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message for unchecked Fire checkbox")
-                      .contains("Fire: condition changed to false");
-
-        // test selector
-        WebElement radioBtnGold = webDriver.findElement(
-            By.xpath("//label[@class='label-radio' and contains(., 'Gold')]/child::input[@type='radio']"));
-        radioBtnGold.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Gold selector")
-                      .contains("metal: value changed to Gold");
-
-        WebElement radioBtnSilver = webDriver.findElement(
-            By.xpath("//label[@class='label-radio' and contains(., 'Silver')]/child::input[@type='radio']"));
-        radioBtnSilver.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Silver selector")
-                      .contains("metal: value changed to Silver");
-
-        WebElement radioBtnBronze = webDriver.findElement(
-            By.xpath("//label[@class='label-radio' and contains(., 'Bronze')]/child::input[@type='radio']"));
-        radioBtnBronze.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Bronze selector")
-                      .contains("metal: value changed to Bronze");
-
-        radioBtnSelen.click();
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Selen selector")
-                      .contains("metal: value changed to Selen");
-
-        // test dropdown
-
-        // change current selection to prevent intersection with first check
-        dropdownSelectorColors.selectByVisibleText("Yellow");
-
-        dropdownSelectorColors.selectByVisibleText("Red");
-        selectedColor = dropdownSelectorColors.getFirstSelectedOption();
-        softAssertions.assertThat(selectedColor.getText())
-                      .as("Selected color is Red")
-                      .isEqualTo("Red");
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Red in dropdown menu 'colors'")
-                      .contains("Colors: value changed to Red");
-
-        dropdownSelectorColors.selectByVisibleText("Green");
-        selectedColor = dropdownSelectorColors.getFirstSelectedOption();
-        softAssertions.assertThat(selectedColor.getText())
-                      .as("Selected color is Green")
-                      .isEqualTo("Green");
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Green in dropdown menu 'colors'")
-                      .contains("Colors: value changed to Green");
-
-        dropdownSelectorColors.selectByVisibleText("Blue");
-        selectedColor = dropdownSelectorColors.getFirstSelectedOption();
-        softAssertions.assertThat(selectedColor.getText())
-                      .as("Selected color is Blue")
-                      .isEqualTo("Blue");
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Blue in dropdown menu 'colors'")
-                      .contains("Colors: value changed to Blue");
-
-        dropdownSelectorColors.selectByVisibleText("Yellow");
-        selectedColor = dropdownSelectorColors.getFirstSelectedOption();
-        softAssertions.assertThat(selectedColor.getText())
-                      .as("Selected color is Yellow")
-                      .isEqualTo("Yellow");
-        softAssertions.assertThat(
-                          webDriver.findElement(By.xpath(xpathFirstLogElement)).getText())
-                      .as("Correct log message when selected Yellow in dropdown menu 'colors'")
-                      .contains("Colors: value changed to Yellow");
+        softAssertions.assertThat(logElementsAsList)
+                      .as("Logs rows are displayed and correct")
+                      .isEqualTo(logElementsExpected);
 
         // 10. Close Browser
         // No more needed
