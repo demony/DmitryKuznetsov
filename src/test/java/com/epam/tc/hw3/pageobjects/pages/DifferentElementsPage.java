@@ -4,12 +4,12 @@ import com.epam.tc.hw3.pageobjects.elements.DifferentElements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class DifferentElementsPage {
+public class DifferentElementsPage extends BasePage {
 
     private final DifferentElements differentElements;
 
     public DifferentElementsPage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
         differentElements = new DifferentElements(webDriver);
     }
 

@@ -137,7 +137,7 @@ public class SiteStructureTests extends BaseTest {
                       .hasSameElementsAs(menuElementsLeftSideBarExpected);
 
         // 12. Close Browser
-        commonTestSteps.closeBrowser();
+        // Do not check
 
         softAssertions.assertAll();
 

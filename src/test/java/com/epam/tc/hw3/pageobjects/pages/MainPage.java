@@ -8,7 +8,7 @@ import com.epam.tc.hw3.pageobjects.elements.LoginElements;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class MainPage {
+public class MainPage extends BasePage {
 
     private final LoginElements loginPageObjects;
     private final HeaderMenuElements headerMenuElements;
@@ -17,7 +17,7 @@ public class MainPage {
     private final LeftMenuElements leftMenuElements;
 
     public MainPage(WebDriver webDriver) {
-        PageFactory.initElements(webDriver, this);
+        super(webDriver);
         loginPageObjects = new LoginElements(webDriver);
         headerMenuElements = new HeaderMenuElements(webDriver);
         benefitsElements = new BenefitsElements(webDriver);

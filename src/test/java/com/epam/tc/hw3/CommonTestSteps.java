@@ -8,22 +8,24 @@ import org.assertj.core.api.SoftAssertions;
 
 public class CommonTestSteps {
 
+    private final MainPage mainPage;
     private final LoginElements loginElements;
     private final SoftAssertions softAssertions;
 
     public CommonTestSteps(MainPage mainPage, SoftAssertions softAssertions) {
-
+        this.mainPage = mainPage;
         this.loginElements = mainPage.getLoginPageObjects();
         this.softAssertions = softAssertions;
     }
 
     public void openWebSite(String url) {
-        loginElements.openURL(url);
-        softAssertions.assertThat(loginElements.getCurrentUrl()).as("The site is opened").isEqualTo(url);
+
+        mainPage.openURL(url);
+        softAssertions.assertThat(mainPage.getCurrentUrl()).as("The site is opened").isEqualTo(url);
     }
 
     public void assertThatTitleIsCorrect(String titleExpected) {
-        softAssertions.assertThat(loginElements.getTitle())
+        softAssertions.assertThat(mainPage.getTitle())
                       .as("Browser title equals 'Home Page'")
                       .isEqualTo("Home Page");
     }
@@ -46,10 +48,4 @@ public class CommonTestSteps {
                       .as("Name is equals to expected result")
                       .isEqualTo(userName);
     }
-
-    public void closeBrowser() {
-        boolean browserIsClosed = loginElements.closeBrowser();
-        softAssertions.assertThat(browserIsClosed).as("Browser is closed").isTrue();
-    }
-
 }

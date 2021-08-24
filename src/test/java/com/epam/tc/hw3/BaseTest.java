@@ -38,6 +38,7 @@ public abstract class BaseTest {
 
     @AfterMethod
     public void teardown() {
+        webDriver.close();
         if (webDriver != null) {
             webDriver.quit();
         }
