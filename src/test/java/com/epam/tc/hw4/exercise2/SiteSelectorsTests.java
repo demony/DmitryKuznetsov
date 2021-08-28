@@ -4,7 +4,6 @@ import com.epam.tc.hw4.BaseTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
-import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.Test;
 
 @Feature("Site structure should be correct and selectors should work properly also")
@@ -45,9 +44,6 @@ public class SiteSelectorsTests extends BaseTest {
         //    • for radio button there is a log row and value is corresponded to the status of radio button
         //    • for dropdown there is a log row and value is corresponded to the selected value.
         differentElementsTestSteps.assertThatSelectorsHasCorrectLogMessage();
-
-        // 10. Close Browser
-        commonTestSteps.closeBrowser();
 
         softAssertions.assertAll();
 

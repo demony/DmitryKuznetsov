@@ -3,6 +3,8 @@ package com.epam.tc.hw4.pageobjects;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,32 +12,12 @@ import org.openqa.selenium.support.ui.Select;
 
 public class DifferentElements extends BaseElements {
 
-    @FindBy(xpath = "//label[@class='label-checkbox' and contains(., 'Water')]/input")
-    private WebElement checkboxWater;
 
-    @FindBy(xpath = "//label[@class='label-checkbox' and contains(., 'Earth')]/input")
-    private WebElement checkboxEarth;
+    @FindBy(xpath = "//label[@class='label-checkbox']")
+    private List<WebElement> checkboxes;
 
-    @FindBy(xpath = "//label[@class='label-checkbox' and contains(., 'Wind')]/input")
-    private WebElement checkboxWind;
-
-    @FindBy(xpath = "//label[@class='label-checkbox' and contains(., 'Fire')]/input")
-    private WebElement checkboxFire;
-
-    @FindBy(css = "label[class='label-radio']")
+    @FindBy(xpath = "//label[@class='label-radio']")
     private List<WebElement> radioButtons;
-
-    @FindBy(xpath = "//label[@class='label-radio' and contains(., 'Gold')]/input")
-    private WebElement radioButtonGold;
-
-    @FindBy(xpath = "//label[@class='label-radio' and contains(., 'Silver')]/input")
-    private WebElement radioButtonSilver;
-
-    @FindBy(xpath = "//label[@class='label-radio' and contains(., 'Bronze')]/input")
-    private WebElement radioButtonBronze;
-
-    @FindBy(xpath = "//label[@class='label-radio' and contains(., 'Selen')]/input")
-    private WebElement radioButtonSelen;
 
     @FindBy(xpath = "//div[@class='colors']/select")
     private WebElement dropDownColors;
@@ -43,65 +25,15 @@ public class DifferentElements extends BaseElements {
     @FindBy(xpath = "//ul[@class='panel-body-list logs']/li[1]")
     private WebElement firstLogMessage;
 
+    @FindBy(xpath = "//ul[@class='panel-body-list logs']/li")
+    private List<WebElement> logElements;
+
     public DifferentElements(WebDriver webDriver) {
         super(webDriver);
     }
 
-    public void clickOnCheckboxWater() {
-        checkboxWater.click();
-    }
-
-    public void clickOnCheckboxEarth() {
-        checkboxEarth.click();
-    }
-
-    public void clickOnCheckboxWind() {
-        checkboxWind.click();
-    }
-
-    public void clickOnCheckboxFire() {
-        checkboxFire.click();
-    }
-
-    public boolean checkboxWaterIsSelected() {
-        return checkboxWater.isSelected();
-    }
-
-    public boolean checkboxEarthIsSelected() {
-        return checkboxEarth.isSelected();
-    }
-
-    public boolean checkboxWindIsSelected() {
-        return checkboxWind.isSelected();
-    }
-
-    public boolean checkboxFireIsSelected() {
-        return checkboxFire.isSelected();
-    }
-
     public List<WebElement> getRadioButtons() {
         return radioButtons;
-    }
-
-    public WebElement getRadioButtonGold() {
-        return radioButtonGold;
-    }
-
-    public WebElement getRadioButtonSilver() {
-        return radioButtonSilver;
-    }
-
-    public WebElement getRadioButtonBronze() {
-        return radioButtonBronze;
-    }
-
-    public WebElement getRadioButtonSelen() {
-        return radioButtonSelen;
-    }
-
-    public boolean getRadioButtonSelenClick() {
-        radioButtonSelen.click();
-        return radioButtonSelen.isSelected();
     }
 
     public WebElement getDropDownColors() {
@@ -119,61 +51,33 @@ public class DifferentElements extends BaseElements {
         return firstLogMessage.getText();
     }
 
-    public boolean clickCheckBox(String checkboxName) {
-        WebElement checkBox;
-        switch (checkboxName) {
-            case "Water":
-                checkBox = checkboxWater;
-                break;
-            case "Earth":
-                checkBox = checkboxEarth;
-                break;
-            case "Wind":
-                checkBox = checkboxWind;
-                break;
-            case "Fire":
-                checkBox = checkboxFire;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid checkbox name " + checkboxName);
+    public boolean clickOnCheckBox(String textInsideCheckbox) {
+        return findAndClickOnElementContainingText(checkboxes, textInsideCheckbox);
+    }
+
+    public Boolean clickOnRadioButton(String textInsideRadioButton) {
+        return findAndClickOnElementContainingText(radioButtons, textInsideRadioButton);
+    }
+
+    private boolean findAndClickOnElementContainingText(List<WebElement> webElements, String text) {
+
+        List<WebElement> elements = webElements.stream()
+                                      .filter(el -> el.getText().contains(text))
+                                      .collect(Collectors.toList());
+        if (elements.size() == 1) {
+            elements.get(0).click();
+        } else {
+            throw new RuntimeException("Can't find element with text = " + text);
         }
-        checkBox.click();
-        return checkBox.isSelected();
+        return elements.get(0).findElement(By.cssSelector("input")).isSelected();
     }
 
-    public Map<Boolean, String> doubleClickOnCheckBoxAndCollectStatusAndLogs(String checkBoxName) {
-        Map<Boolean, String> checkboxLogValues = new HashMap<>();
-        checkboxLogValues.put(clickCheckBox(checkBoxName), getFirstLogMessageAsText());
-        checkboxLogValues.put(clickCheckBox(checkBoxName), getFirstLogMessageAsText());
-
-        return checkboxLogValues;
-    }
-
-    public WebElement getRadioButtonByName(String radioButtonName) {
-        WebElement radioButton;
-        switch (radioButtonName) {
-            case "Gold":
-                radioButton = radioButtonGold;
-                break;
-            case "Silver":
-                radioButton = radioButtonSilver;
-                break;
-            case "Bronze":
-                radioButton = radioButtonBronze;
-                break;
-            case "Selen":
-                radioButton = radioButtonSelen;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid checkbox name " + radioButtonName);
-        }
-        return radioButton;
-    }
-
-    public Boolean radioButtonClick(String radioButtonName) {
-        WebElement radioButton = getRadioButtonByName(radioButtonName);
-        radioButton.click();
-        return radioButton.isSelected();
+    public List<String> getLogElementsTrimDates() {
+        return logElements
+            .stream()
+            .filter(WebElement::isDisplayed)
+            .map(el -> el.getText().substring(9))
+            .collect(Collectors.toList());
     }
 }
 

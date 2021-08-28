@@ -32,6 +32,8 @@ public class FailSiteStructureTests extends BaseTest {
         commonTestSteps.login(properties.getUserLogin(), properties.getUserPassword());
 
         //  4. Assert Username
+        // wrong username
+        // properties.getUserName()
         commonTestSteps.assertUserName(properties.getUserName());
 
         softAssertions.assertAll();

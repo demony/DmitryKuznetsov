@@ -45,9 +45,6 @@ public class SiteStructureTests extends BaseTest {
         // 11. Assert that there are 5 items in the Left Section are displayed, and they have proper text
         siteStructureTestSteps.assertThatLeftMenuIsCorrect();
 
-        // 12. Close Browser
-        commonTestSteps.closeBrowser();
-
         softAssertions.assertAll();
 
     }

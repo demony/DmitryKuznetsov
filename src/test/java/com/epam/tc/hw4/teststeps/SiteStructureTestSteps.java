@@ -4,6 +4,7 @@ import com.epam.tc.hw4.pageobjects.BenefitsElements;
 import com.epam.tc.hw4.pageobjects.HeaderMenuElements;
 import com.epam.tc.hw4.pageobjects.IframeElements;
 import com.epam.tc.hw4.pageobjects.LeftMenuElements;
+import com.epam.tc.hw4.pages.MainPage;
 import io.qameta.allure.Step;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +17,17 @@ public class SiteStructureTestSteps {
     private final BenefitsElements benefitsElements;
     private final IframeElements iframeElements;
     private final LeftMenuElements leftMenuElements;
+    private MainPage mainPage;
     private SoftAssertions softAssertions;
 
     public SiteStructureTestSteps(WebDriver webDriver) {
-        headerMenuElements = new HeaderMenuElements(webDriver);
-        benefitsElements = new BenefitsElements(webDriver);
-        iframeElements = new IframeElements(webDriver);
-        leftMenuElements = new LeftMenuElements(webDriver);
+
+        mainPage = new MainPage(webDriver);
+        headerMenuElements = mainPage.getHeaderMenuElements();
+        benefitsElements = mainPage.getBenefitsElements();
+        iframeElements = mainPage.getIframeElements();
+        leftMenuElements = mainPage.getLeftMenuElements();
+
     }
 
     public void setSoftAssertions(SoftAssertions softAssertions) {
@@ -147,7 +152,7 @@ public class SiteStructureTestSteps {
 
         headerMenuElements.openPageDifferentElements();
 
-        softAssertions.assertThat(headerMenuElements.getCurrentUrl())
+        softAssertions.assertThat(mainPage.getCurrentUrl())
                       .as("Different Elements Page is opened")
                       .isEqualTo(urlForCheckCorrectPage);
     }

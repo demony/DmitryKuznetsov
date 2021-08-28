@@ -1,6 +1,8 @@
 package com.epam.tc.hw4.teststeps;
 
 import com.epam.tc.hw4.pageobjects.LoginElements;
+import com.epam.tc.hw4.pages.BasePage;
+import com.epam.tc.hw4.pages.MainPage;
 import io.qameta.allure.Step;
 import org.assertj.core.api.SoftAssertions;
 import org.openqa.selenium.WebDriver;
@@ -8,10 +10,13 @@ import org.openqa.selenium.WebDriver;
 public class CommonTestSteps {
 
     private final LoginElements loginElements;
+    private final MainPage mainPage;
     private SoftAssertions softAssertions;
 
     public CommonTestSteps(WebDriver webDriver) {
-        loginElements = new LoginElements(webDriver);
+
+        mainPage = new MainPage(webDriver);
+        loginElements = mainPage.getLoginElements();
     }
 
     public void setSoftAssertions(SoftAssertions softAssertions) {
@@ -20,13 +25,13 @@ public class CommonTestSteps {
 
     @Step("Open site")
     public void openWebSite(String url) {
-        loginElements.openURL(url);
-        softAssertions.assertThat(loginElements.getCurrentUrl()).as("The site is opened").isEqualTo(url);
+        mainPage.openURL(url);
+        softAssertions.assertThat(mainPage.getCurrentUrl()).as("The site is opened").isEqualTo(url);
     }
 
     @Step("Check title")
     public void assertThatTitleIsCorrect(String titleExpected) {
-        softAssertions.assertThat(loginElements.getTitle())
+        softAssertions.assertThat(mainPage.getTitle())
                       .as("Browser title equals 'Home Page'")
                       .isEqualTo(titleExpected);
     }
@@ -50,12 +55,6 @@ public class CommonTestSteps {
         softAssertions.assertThat(currentUser)
                       .as("Name is equals to expected result")
                       .isEqualTo(userName);
-    }
-
-    @Step("Close browser")
-    public void closeBrowser() {
-        boolean browserIsClosed = loginElements.closeBrowser();
-        softAssertions.assertThat(browserIsClosed).as("Browser is closed").isTrue();
     }
 
 }
