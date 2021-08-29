@@ -45,4 +45,9 @@ public class LoginComponent extends AbstractComponent {
     public void clickToLoginButton() {
         wait.until(visibilityOf(loginButton)).click();
     }
+
+    public Boolean loginButtonIsDisplayed() {
+        return loginButton.isDisplayed();
+    }
+
 }
