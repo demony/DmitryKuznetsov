@@ -16,7 +16,6 @@ public class CucumberHooks {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-
         TestContext.getInstance().addTestObject("web_driver", driver);
     }
 

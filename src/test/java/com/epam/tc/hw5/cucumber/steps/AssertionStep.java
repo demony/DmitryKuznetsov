@@ -14,7 +14,6 @@ public class AssertionStep extends AbstractStep {
 
     @Then("{string} page should be opened")
     public void pageShouldBeOpened(String pageTitle) {
-
         String actualPageTitle = differentElementsPage.getTitle();
         assertThat(actualPageTitle)
             .as("Page title is equal to " + pageTitle)
@@ -35,13 +34,10 @@ public class AssertionStep extends AbstractStep {
 
     @Then("Checkboxes {elementNamesTest} should be checked")
     public void checkboxesShouldBeChecked(List<String> elementNamesTest) {
-
         List<String> selectedCheckboxes = differentElementsPage.getSelectedCheckboxes();
-
         assertThat(selectedCheckboxes)
             .as("Checkboxes should be checked")
             .hasSameElementsAs(elementNamesTest);
-
     }
 
     @Then("Radio button {string} should be checked")
@@ -97,21 +93,17 @@ public class AssertionStep extends AbstractStep {
 
     @Then("User table should contain following values:")
     public void userTableShouldContainFollowingValues(DataTable dataTable) {
-
         List<String> expectedNumbers = dataTable.column(0).stream().skip(1).collect(Collectors.toList());
         List<String> actualRowNumbers = userTablePage.getElementsAsListOfStrings(userTablePage.getRowNumbers());
         assertThat(actualRowNumbers).as("Check column numbers in table").isEqualTo(expectedNumbers);
-
         List<String> expectedNames = dataTable.column(1).stream().skip(1).collect(Collectors.toList());
         List<String> actualUserNames = userTablePage.getElementsAsListOfStrings(userTablePage.getUsernames());
         assertThat(actualUserNames).as("Check column names in table").isEqualTo(expectedNames);
-
         List<String> expectedDescription = dataTable.column(2).stream().skip(1).collect(Collectors.toList());
         List<String> actualDescriptions = userTablePage
             .getElementsAsListOfStrings(userTablePage.getDescriptionTexts());
         assertThat(actualDescriptions).as("Check column description in table")
                                       .isEqualTo(expectedDescription);
-
     }
 
     @Then("droplist should contain values in column Type for user Roman")

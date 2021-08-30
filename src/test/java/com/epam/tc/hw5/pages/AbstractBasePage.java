@@ -5,12 +5,10 @@ import com.epam.tc.hw5.pages.components.DifferentElementsComponent;
 import com.epam.tc.hw5.pages.components.LoginComponent;
 import com.epam.tc.hw5.pages.components.MenuComponent;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public abstract class AbstractBasePage extends AbstractComponent {
 
     private static final String BASE_URL = "https://jdi-testing.github.io";
-
     protected LoginComponent loginComponent;
     protected MenuComponent menuComponent;
     protected DifferentElementsComponent differentElementsComponent;
@@ -57,5 +55,4 @@ public abstract class AbstractBasePage extends AbstractComponent {
     public Boolean userIsLoggedIn() {
         return !loginComponent.loginButtonIsDisplayed();
     }
-
 }

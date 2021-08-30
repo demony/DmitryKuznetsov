@@ -29,17 +29,14 @@ public class LoginComponent extends AbstractComponent {
 
     public void clickToUserIcon() {
         userIcon.click();
-        // wait.until(visibilityOf(userIcon)).click();
     }
 
     public void sendKeysToUserPasswordField(String text) {
         userPasswordInput.sendKeys(text);
-        // wait.until(visibilityOf(userPasswordInput)).sendKeys(text);
     }
 
     public void sendKeysToUserLoginField(String text) {
         userLoginInput.sendKeys(text);
-        // wait.until(visibilityOf(userLoginInput)).sendKeys(text);
     }
 
     public void clickToLoginButton() {
@@ -49,5 +46,4 @@ public class LoginComponent extends AbstractComponent {
     public Boolean loginButtonIsDisplayed() {
         return loginButton.isDisplayed();
     }
-
 }

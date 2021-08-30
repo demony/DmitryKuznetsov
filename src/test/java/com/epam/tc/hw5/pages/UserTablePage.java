@@ -9,13 +9,13 @@ import org.openqa.selenium.support.FindBy;
 
 public class UserTablePage extends AbstractBasePage {
 
-    @FindBy(xpath = "//td/select")
+    @FindBy(css = "tbody select")
     private List<WebElement> dropdowns;
 
-    @FindBy(xpath = "//td/a")
+    @FindBy(css = "tbody a")
     private List<WebElement> usernames;
 
-    @FindBy(css = ".user-descr > span")
+    @FindBy(css = "tbody span")
     private List<WebElement> descriptionTexts;
 
     @FindBy(css = "input[type='checkbox']")
@@ -24,10 +24,10 @@ public class UserTablePage extends AbstractBasePage {
     @FindBy(css = "td:first-child")
     private List<WebElement> rowNumbers;
 
-    @FindBy(css = "#user-table tbody > tr")
+    @FindBy(css = "tbody>tr")
     private List<WebElement> tableRows;
 
-    @FindBy(xpath = "//ul[@class='panel-body-list logs']/li")
+    @FindBy(css = ".logs>li")
     private List<WebElement> logElements;
 
     public UserTablePage(WebDriver webDriver) {
@@ -58,7 +58,6 @@ public class UserTablePage extends AbstractBasePage {
         return webElementLis.stream()
                             .map(el -> el.getText().replaceAll("\n", " "))
                             .collect(Collectors.toList());
-
     }
 
     public WebElement getTableRowByUserName(String userName) {
@@ -91,5 +90,4 @@ public class UserTablePage extends AbstractBasePage {
     public String getLogByIndex(Integer logIndex) {
         return logElements.get(logIndex - 1).getText();
     }
-
 }

@@ -1,6 +1,5 @@
 package com.epam.tc.hw5.pages;
 
-import com.epam.tc.hw5.pages.components.DifferentElementsComponent;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.openqa.selenium.By;

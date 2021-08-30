@@ -7,11 +7,10 @@ import java.util.Properties;
 public class PropertiesForTests {
 
     private final Properties properties = new Properties();
+    private static final String PROPERTIES_FILE_PATH = "src//test//resources//configs//wh3-configuration.properties";
 
     public PropertiesForTests() {
-
-        String propertyFilePath = "src//test//resources//configs//wh3-configuration.properties";
-        try (FileInputStream fileInputStream = new FileInputStream(propertyFilePath)) {
+        try (FileInputStream fileInputStream = new FileInputStream(PROPERTIES_FILE_PATH)) {
             properties.load(fileInputStream);
         } catch (IOException e) {
             e.printStackTrace();

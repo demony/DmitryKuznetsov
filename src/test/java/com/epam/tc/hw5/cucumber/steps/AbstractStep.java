@@ -17,7 +17,6 @@ public class AbstractStep {
     public AbstractStep() {
         WebDriver driver = TestContext.getInstance().getTestObject("web_driver");
         properties = new PropertiesForTests();
-
         homePage = new HomePage(driver);
         differentElementsPage = new DifferentElementsPage(driver);
         userTablePage = new UserTablePage(driver);

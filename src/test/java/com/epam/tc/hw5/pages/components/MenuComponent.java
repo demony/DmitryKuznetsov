@@ -11,33 +11,28 @@ public class MenuComponent extends AbstractComponent {
     @FindBy(css = ".uui-navigation > li > a")
     private List<WebElement> headerMenu;
 
-    @FindBy(css = ".dropdown-menu > li > a")
+    @FindBy(css = "ul[role='menu'] a")
     private List<WebElement> serviceMenu;
-
-    @FindBy(xpath = "//header//a[contains(., 'User Table ')]")
-    private WebElement menuUserTable;
 
     public MenuComponent(WebDriver webDriver) {
         super(webDriver);
     }
 
     public void clickToHeaderMenuElement(String elementName) {
-        findMenuElementByNameAndClickOnIt(headerMenu, elementName);
+        findMenuElementByName(headerMenu, elementName).click();
     }
 
     public void clickToMenuElementInServiceDropDown(String elementName) {
-        findMenuElementByNameAndClickOnIt(serviceMenu, elementName);
+        findMenuElementByName(serviceMenu, elementName).click();
     }
 
-    private void findMenuElementByNameAndClickOnIt(List<WebElement> webElementList, String elementName) {
+    private WebElement findMenuElementByName(List<WebElement> webElementList, String elementName) {
         List<WebElement> resultList = webElementList.stream()
                   .filter(el -> el.getText().compareToIgnoreCase(elementName) == 0).collect(Collectors.toList());
 
         if (resultList.isEmpty()) {
             throw new RuntimeException("Can't find menu element " + elementName);
         }
-
-        resultList.get(0).click();
+        return resultList.get(0);
     }
-
 }
