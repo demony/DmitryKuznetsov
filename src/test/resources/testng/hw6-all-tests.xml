@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="hw6 allTestsSuit">
+  <listeners>
+    <listener class-name="com.epam.tc.hw6.listeners.AllureAttachmentListener" />
+  </listeners>
+  <test name="hw6 allTests">
+    <packages>
+      <package name="com.epam.tc.hw6.exercise1" />
+      <package name="com.epam.tc.hw6.exercise2" />
+    </packages>
+  </test>
+</suite>
