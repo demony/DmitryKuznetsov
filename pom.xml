@@ -47,11 +47,13 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
@@ -140,13 +142,17 @@
             </properties>
         </profile>
         <profile>
+            <id>hw5-profile-all-test</id>
+            <properties>
+                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw5-all-tests.xml</maven-surefire-plugin.suiteXmlFile>
+            </properties>
+        </profile>
+        <profile>
             <id>hw6-profile-all-test</id>
             <properties>
                 <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw6-all-tests.xml</maven-surefire-plugin.suiteXmlFile>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+            <activation><activeByDefault>true</activeByDefault></activation>
         </profile>
     </profiles>
     <reporting>
@@ -162,5 +168,4 @@
             </plugin>
         </plugins>
     </reporting>
-
 </project>
