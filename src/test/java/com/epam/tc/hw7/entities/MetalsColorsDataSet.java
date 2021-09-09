@@ -1,8 +1,9 @@
 package com.epam.tc.hw7.entities;
 
+import com.epam.jdi.tools.DataClass;
 import java.util.List;
 
-public class MetalsColorsDataSet {
+public class MetalsColorsDataSet extends DataClass<MetalsColorsDataSet> {
     public Integer[] summary;
     public List<String> elements;
     public String color;

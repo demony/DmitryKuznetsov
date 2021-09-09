@@ -8,7 +8,6 @@ import com.epam.tc.hw7.entities.User;
 import com.epam.tc.hw7.steps.TestSteps;
 import org.testng.annotations.Test;
 
-// @Listeners(TestNGListener.class)
 public class JdiTest implements TestInit {
 
     @Test(dataProvider = "metalsColorsDataSet", dataProviderClass = MetalsColorsDataProvider.class)
