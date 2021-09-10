@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="hw7 allTestsSuit JDI">
+  <test name="hw7allTestsJDI">
+    <packages>
+      <package name="com.epam.tc.hw7.tests" />
+    </packages>
+  </test>
+  <listeners>
+    <listener class-name="com.epam.tc.hw7.testng.TestNGListener" />
+  </listeners>
+</suite>
