@@ -1,8 +1,8 @@
 Language;Option; Text;Errors; Suggestions
-ru;;мама мылkа раму1 и купала дитя;мылkа, раму1;мыла, милка, мылка, ссылка, мышка, раму
-en,ru;;мама cle#an раму и купала дитя;cles;
-uk;;мама cle#an раму и купалла дитя;купалла;купала
-ru;1;мама cle#an раму и купалла дитя;купалла;купала, купола
-ru;;the world;;
+en;;strange case in england;england;England
+en,ru;;mmotther cle#an the 1 something stranhe;cle;
+en;;mother cle#an the frame and washed it;cle;
+en;1;mother cle#an the window and bathing the childt ;cle, childt; child
+en;;the world;;
 en;;do not love;;
 en;;more;;
