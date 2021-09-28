@@ -96,6 +96,11 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.12.5</version>
         </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>4.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -183,6 +188,12 @@
             <properties>
                 <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw7-all-tests.xml</maven-surefire-plugin.suiteXmlFile>
                 <driver>chrome</driver>
+            </properties>
+        </profile>
+        <profile>
+            <id>hw9-profile-all-test</id>
+            <properties>
+                <maven-surefire-plugin.suiteXmlFile>${project.build.testOutputDirectory}/testng/hw9-all-tests.xml</maven-surefire-plugin.suiteXmlFile>
             </properties>
             <activation><activeByDefault>true</activeByDefault></activation>
         </profile>
