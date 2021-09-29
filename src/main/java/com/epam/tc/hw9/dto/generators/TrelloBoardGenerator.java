@@ -1,12 +1,12 @@
-package com.epam.tc.hw9.utils;
+package com.epam.tc.hw9.dto.generators;
 
 import com.epam.tc.hw9.dto.TrelloBoardDto;
 
 public class TrelloBoardGenerator {
-    public static TrelloBoardDto getNewTrelloBoard() {
+    public static TrelloBoardDto getNewTrelloBoard(String name) {
         return TrelloBoardDto
             .builder()
-            .name("board created by builder2")
+            .name(name)
             .build();
     }
 }

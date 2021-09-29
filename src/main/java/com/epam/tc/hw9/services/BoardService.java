@@ -14,17 +14,6 @@ public class BoardService extends AbstractService {
         super(baseUri, basePath, key, token);
     }
 
-    public TrelloBoardDto prepareResult(Response response) {
-        if (response.getStatusCode() == HttpStatus.SC_OK) {
-            return response.as(TrelloBoardDto.class);
-        } else if (response.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        } else {
-            response.then().log().ifError();
-            return null;
-        }
-    }
-
     public TrelloBoardDto create(TrelloBoardDto trelloBoardDto) {
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("name", trelloBoardDto.getName());
@@ -57,7 +46,7 @@ public class BoardService extends AbstractService {
     }
 
     public TrelloBoardDto getById(String idBoard) {
-        return prepareResult(getRequest(idBoard));
+        return prepareResult(getRequest(idBoard), TrelloBoardDto.class);
     }
 
 }

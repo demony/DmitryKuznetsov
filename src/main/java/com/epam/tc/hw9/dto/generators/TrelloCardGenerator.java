@@ -1,12 +1,12 @@
-package com.epam.tc.hw9.utils;
+package com.epam.tc.hw9.dto.generators;
 
 import com.epam.tc.hw9.dto.TrelloCardDto;
 
 public class TrelloCardGenerator {
-    public static TrelloCardDto getNewTrelloCard() {
+    public static TrelloCardDto getNewTrelloCard(String name) {
         return TrelloCardDto
             .builder()
-            .name("Card 2")
+            .name(name)
             .build();
     }
 }

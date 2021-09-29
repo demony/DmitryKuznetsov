@@ -8,15 +8,16 @@ import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.Map;
+import org.apache.http.HttpStatus;
 
 public abstract class AbstractService {
 
-    protected RequestSpecification REQUEST_SPECIFICATION;
+    protected RequestSpecification requestSpecification;
 
     public AbstractService(String baseUri, String basePath, String key, String token) {
         String authorization =
             "OAuth oauth_consumer_key=\"" + key + "\", oauth_token=\"" + token + "\"";
-        REQUEST_SPECIFICATION =
+        requestSpecification =
             new RequestSpecBuilder()
                 .addHeader("Authorization", authorization)
                 .setBaseUri(baseUri)
@@ -26,12 +27,12 @@ public abstract class AbstractService {
     }
 
     protected Response makeRequest(Method method, String uri) {
-        Response response = given(REQUEST_SPECIFICATION).request(method, uri);
+        Response response = given(requestSpecification).request(method, uri);
         return response;
     }
 
     protected Response makeRequest(Method method, String uri, Map<String, Object> queryParams) {
-        RequestSpecification specification = given(REQUEST_SPECIFICATION);
+        RequestSpecification specification = given(requestSpecification);
         addParameters(specification, queryParams);
         Response response = specification.request(method, uri);
         return response;
@@ -68,6 +69,17 @@ public abstract class AbstractService {
     protected void addParameters(RequestSpecification requestSpecification, Map<String, Object> queryParams) {
         for (Map.Entry<String, Object> param : queryParams.entrySet()) {
             requestSpecification.queryParam(param.getKey(), param.getValue());
+        }
+    }
+
+    public <T> T prepareResult(Response response, Class<T> expectedClass) {
+        if (response.getStatusCode() == HttpStatus.SC_OK) {
+            return response.as(expectedClass);
+        } else if (response.getStatusCode() == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        } else {
+            response.then().log().ifError();
+            return null;
         }
     }
 }
